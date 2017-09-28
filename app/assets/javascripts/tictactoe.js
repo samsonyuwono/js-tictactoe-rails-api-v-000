@@ -26,22 +26,17 @@ function setMessage(string){
 }
 
 function checkWinner(){
-  return winner()
-}
-
-function winner(){
   var currentBoard = board()
-  var won = win_combinations.forEach(function(combo){
+  for(i= 0; i < win_combinations.length; i++){
+    var combo = win_combinations[i]
     if(currentBoard[combo[0]] == "X" && currentBoard[combo[1]] == "X" && currentBoard[combo[2]] == "X"){
-      return true;
+      setMessage(`Player ${currentBoard[combo[0]]} Won!`)
+      return true
     }
     else if (currentBoard[combo[0]] == "O" && currentBoard[combo[1]] == "O" && currentBoard[combo[2]] == "O") {
+      setMessage(`Player ${currentBoard[combo[0]]} Won!`)
       return true;
     }
-    else{
-      return false;
-    }
-  })
-  debugger;
-  return won;
+  }
+  return false
 }
