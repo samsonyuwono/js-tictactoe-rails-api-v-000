@@ -40,3 +40,24 @@ function checkWinner(){
   }
   return false
 }
+
+function doTurn(position){
+  updateState(position)
+  turn++
+  if(checkWinner()){
+  resetBoard()
+  }
+  else if(turn === 9){
+    setMessage("Tie game.")
+    resetBoard()
+  }
+}
+
+function resetBoard(){
+  $('td').empty()
+  return turn = 0
+}
+
+function attachListeners(){
+  
+}
