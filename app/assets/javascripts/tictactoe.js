@@ -58,6 +58,12 @@ function resetBoard(){
   return turn = 0
 }
 
-function attachListeners(){
+function saveGame(){
   
+}
+
+function attachListeners(){
+  $('tbody').click(function(event){
+    doTurn(event)
+  });
 }
