@@ -78,8 +78,15 @@ function attachListeners(){
   $('td').on('click', function(evt){
     if (!checkWinner()){
       doTurn(evt.target)
-      //if position !== " "
-        //insert "X" or "O"
     }
+  });
+  $('#save').on('click', function(){
+    console.log('save')
+  });
+  $('#previous').on('click', function(){
+    console.log('previous')
+  });
+  $('#clear').on('click', function(){
+    console.log('clear') //clear board and start a completely new game
   });
 }
