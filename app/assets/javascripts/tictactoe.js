@@ -2,7 +2,6 @@ $(document).ready(function(){
   attachListeners()
 })
 
-
 var games = [];
 var win_combinations = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]];
 var turn = 0;
@@ -22,13 +21,13 @@ var player = function(){
 }
 
 var updateState = function(position){
-   if($(position).text() == ""){
-        $(position).html(player())
-        turn++
+  if($(position).text() == ""){
+    $(position).html(player())
+    turn++
    }
   else{
-      console.log("position taken!")
-    }
+    console.log("position taken!")
+  }
 }
 
 function setMessage(string){
@@ -79,10 +78,8 @@ function previousGames(){
 
       for(var i =0; i < games['data'].length; i++){
         var id = games['data'][i]['id'];
-        var stateOfGame = games['data'][i]['attributes']['state']
-         buttonsHTML += `<button data-id="${id}" >` + id + "</button>"
+         buttonsHTML += `<button type="button" data-id="${id}" >` + id + "</button>"
       };
-      console.log(buttonsHTML)
       $('div#games').html(buttonsHTML);
     }).then(function(){
       showGames()
@@ -91,7 +88,6 @@ function previousGames(){
 
 function showGames(){
    $('#games button').on('click', function(evt){
-     console.log('ive been clicked')
        gameID = this.dataset['id'];
        getGame(gameID)
     })
@@ -160,6 +156,7 @@ function attachListeners(){
     if(gameID == null){
       saveGame(board());
     }else{
+      console.log('clicked')
       updateGame(board(), gameID);
     }
   });
