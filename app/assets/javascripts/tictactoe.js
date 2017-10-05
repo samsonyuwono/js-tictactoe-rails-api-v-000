@@ -4,11 +4,8 @@ $(document).ready(function(){
 
 
 var games = [];
-
 var win_combinations = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]];
-
 var turn = 0;
-
 var gameID = null;
 
 function board(){
@@ -17,7 +14,7 @@ function board(){
   for(var i= 0; i < tableData.length; i++){
     arr.push(tableData[i].innerHTML);
   }
-  return arr
+  return arr;
 }
 
 var player = function(){
@@ -82,58 +79,70 @@ function previousGames(){
 
       for(var i =0; i < games['data'].length; i++){
         var id = games['data'][i]['id'];
-         buttonsHTML += `<button data-id="${id}">` + id + "</button>"
+        var stateOfGame = games['data'][i]['attributes']['state']
+         buttonsHTML += `<button data-id="${id}" >` + id + "</button>"
       };
-
+      console.log(buttonsHTML)
       $('div#games').html(buttonsHTML);
-
     }).then(function(){
-      GameButtonsListener()
+      showGames()
     });
-
 }
 
-function GameButtonsListener(){
+function showGames(){
    $('#games button').on('click', function(evt){
-    gameID = this.dataset['id'];
-    //pupolate the board
+     console.log('ive been clicked')
+       gameID = this.dataset['id'];
+       getGame(gameID)
+    })
+}
+
+function getGame(id){
+  $.ajax({
+    url: '/games/' + id,
+    method: 'GET',
+  }).done(function(game){
+    var board = game['data']['attributes']['state']
+    var cells = $('td')
+    for(var i= 0; i < board.length; i++){
+      cells[i].innerHTML = board[i]
+    }
   })
 }
 
 
-function jsonfyGame(board, id = null){
-  return JSON.stringify({
-    "data": {
-      "id": id,
-      "type": "games",
-      "atttributes": {
-        "state": board
-      }
-    }
-  });
-}
+// function jsonfyGame(board, id = null){
+//   return JSON.stringify({
+//     "data": {
+//       "id": id,
+//       "attributes": {
+//         "state": board
+//     }
+//   });
+// }
 
-function saveGame(state){
-  $.ajax({
-    url: '/games',
-    data: jsonfyGame(board),
-    method: 'POST',
-    dataType: 'json'
-  }).done(function(game){
+function saveGame(board){
+    $.ajax({
+      url: '/games',
+      data: {state : board},
+      method: 'POST',
+      dataType: 'json'
+    }).done(function(game){
 
-    var id = game['data']['id']
-    $('#games').append(`<button data-id="${id}">` + id + "</button>")
+      var id = game['data']['id']
+      $('#games').append(`<button data-id="${id}">` + id + "</button>")
 
-    gameID = parseInt(id);
+      gameID = parseInt(id);
 
-    GameButtonsListener();
-  });
-}
+      showGames();
+    });
+  }
+
 
 function updateGame(state, id) {
   $.ajax({
     url: '/games/' + id,
-    data: jsonfyGame(board, id),
+    data: {state : board},
     method: 'PATCH',
     dataType: 'json'
   }).done(function(game){
@@ -142,7 +151,6 @@ function updateGame(state, id) {
 }
 
 function attachListeners(){
-
   $('td').on('click', function(evt){
     if (!checkWinner()){
       doTurn(evt.target)
@@ -155,14 +163,10 @@ function attachListeners(){
       updateGame(board(), gameID);
     }
   });
-
   $('#previous').on('click', function(){
     previousGames();
   });
-
-
   $('#clear').on('click', function(){
-    console.log('clear') //clear board and start a completely new game
     resetBoard()
     gameID = null
   });
