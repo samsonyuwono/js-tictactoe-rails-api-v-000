@@ -89,6 +89,7 @@ function previousGames(){
 function showGames(){
    $('#games button').on('click', function(evt){
        gameID = this.dataset['id'];
+       console.log(gameID)
        getGame(gameID)
     })
 }
@@ -106,17 +107,6 @@ function getGame(id){
   })
 }
 
-
-// function jsonfyGame(board, id = null){
-//   return JSON.stringify({
-//     "data": {
-//       "id": id,
-//       "attributes": {
-//         "state": board
-//     }
-//   });
-// }
-
 function saveGame(board){
     $.ajax({
       url: '/games',
@@ -124,25 +114,22 @@ function saveGame(board){
       method: 'POST',
       dataType: 'json'
     }).done(function(game){
-
       var id = game['data']['id']
       $('#games').append(`<button data-id="${id}">` + id + "</button>")
-
       gameID = parseInt(id);
-
       showGames();
     });
   }
 
-
 function updateGame(state, id) {
+  console.log(id)
   $.ajax({
     url: '/games/' + id,
     data: {state : board},
     method: 'PATCH',
     dataType: 'json'
   }).done(function(game){
-    console.log(game)
+    console.log('clicked')
   });
 }
 
@@ -156,7 +143,6 @@ function attachListeners(){
     if(gameID == null){
       saveGame(board());
     }else{
-      console.log('clicked')
       updateGame(board(), gameID);
     }
   });
