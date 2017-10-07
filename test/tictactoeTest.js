@@ -667,17 +667,17 @@ describe('AJAX interactions with the Rails API', () => {
       // expect(window.turn).to.equal(2);
     });
 
-  //   it('marks the newly-loaded game state such that clicking the "save" button after loading a game sends a PATCH request', () => {
-  //     previousButton.click();
-  //
-  //     requests[0].respond(
-  //       200,
-  //       { 'Content-Type': 'application/json' },
-  //       jsonifyGames([
-  //         ['', '', '', '', 'X', '', '', 'O', '']
-  //       ])
-  //     );
-  //
+    it('marks the newly-loaded game state such that clicking the "save" button after loading a game sends a PATCH request', () => {
+      previousButton.click();
+
+      requests[0].respond(
+        200,
+        { 'Content-Type': 'application/json' },
+        jsonifyGames([
+          ['', '', '', '', 'X', '', '', 'O', '']
+        ])
+      );
+
   //     const gameButtons = Array.from(gamesDiv.children).filter(c => c.tagName === 'BUTTON');
   //
   //     gameButtons[0].click();
@@ -692,6 +692,6 @@ describe('AJAX interactions with the Rails API', () => {
   //
   //     expect(requests[2].method).to.equal('PATCH');
   //     expect(requests[2].url).to.equal('/games/1');
-  //   });
+    });
   });
 });
