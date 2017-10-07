@@ -2,7 +2,7 @@ $(document).ready(function(){
   attachListeners()
 })
 
-var games = [];
+// var games = [];
 var win_combinations = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]];
 var turn = 0;
 var gameID = null;
@@ -122,14 +122,13 @@ function saveGame(board){
   }
 
 function updateGame(state, id) {
-  console.log(id)
-  $.ajax({
+ $.ajax({
     url: '/games/' + id,
-    data: {state : board},
+    data: { state: state },
     method: 'PATCH',
     dataType: 'json'
-  }).done(function(game){
-    console.log('clicked')
+  }).done(function (game) {
+    // console.log('clicked')
   });
 }
 
